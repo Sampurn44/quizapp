@@ -20,9 +20,10 @@ class _MaincallState extends State<Maincall> {
 
   @override
   Widget build(context) {
-    var screen = activeState == 'startscreen'
-        ? StartScreen(switchScreen)
-        : const QuestionCall();
+    Widget screen = StartScreen(switchScreen);
+    if (activeState == 'questionscreen') {
+      screen = const QuestionCall();
+    }
     return MaterialApp(
       home: Scaffold(
         body: Container(
