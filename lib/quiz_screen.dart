@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:quizapp/data/question.dart';
 import 'package:quizapp/answer_button.dart';
 //import 'package:quizapp/models/quiz_questions.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class QuestionCall extends StatefulWidget {
   const QuestionCall({super.key});
@@ -12,9 +13,16 @@ class QuestionCall extends StatefulWidget {
 }
 
 class _QuestionCallState extends State<QuestionCall> {
+  var currentQuestionindex = 0;
+  void answerQuestion() {
+    setState(() {
+      currentQuestionindex = currentQuestionindex + 1;
+    });
+  }
+
   @override
   Widget build(context) {
-    final currentQuestion = question[0];
+    final currentQuestion = question[currentQuestionindex];
     return SizedBox(
       width: double.infinity,
       child: Container(
@@ -25,13 +33,17 @@ class _QuestionCallState extends State<QuestionCall> {
           children: [
             Text(
               currentQuestion.text,
-              style: const TextStyle(color: Colors.white),
+              style: GoogleFonts.lato(
+                color: Color.fromARGB(255, 215, 171, 244),
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 30),
             ...currentQuestion.getShuffledanswers().map(
               (ans) {
-                return AnswerButton(answerText: ans, ontap: () {});
+                return AnswerButton(answerText: ans, ontap: answerQuestion);
               },
             ),
           ],
