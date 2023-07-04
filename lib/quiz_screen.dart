@@ -5,7 +5,11 @@ import 'package:quizapp/answer_button.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class QuestionCall extends StatefulWidget {
-  const QuestionCall({super.key});
+  const QuestionCall({
+    super.key,
+    required this.onSelected,
+  });
+  final void Function(String answer) onSelected;
   @override
   State<QuestionCall> createState() {
     return _QuestionCallState();
@@ -14,7 +18,8 @@ class QuestionCall extends StatefulWidget {
 
 class _QuestionCallState extends State<QuestionCall> {
   var currentQuestionindex = 0;
-  void answerQuestion() {
+  void answerQuestion(String selectedAnswer) {
+    widget.onSelected(selectedAnswer);
     setState(() {
       currentQuestionindex = currentQuestionindex + 1;
     });
@@ -34,7 +39,7 @@ class _QuestionCallState extends State<QuestionCall> {
             Text(
               currentQuestion.text,
               style: GoogleFonts.lato(
-                color: Color.fromARGB(255, 215, 171, 244),
+                color: const Color.fromARGB(255, 215, 171, 244),
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
@@ -43,7 +48,11 @@ class _QuestionCallState extends State<QuestionCall> {
             const SizedBox(height: 30),
             ...currentQuestion.getShuffledanswers().map(
               (ans) {
-                return AnswerButton(answerText: ans, ontap: answerQuestion);
+                return AnswerButton(
+                    answerText: ans,
+                    ontap: () {
+                      answerQuestion(ans);
+                    });
               },
             ),
           ],
